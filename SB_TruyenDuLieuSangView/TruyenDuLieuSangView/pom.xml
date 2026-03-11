@@ -8,7 +8,7 @@
 		<version>3.4.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>vn.edu.nha</groupId>
+	<groupId>vn.edu.tan</groupId>
 	<artifactId>TruyenDuLieuSangView</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>TruyenDuLieuSangView</name>
