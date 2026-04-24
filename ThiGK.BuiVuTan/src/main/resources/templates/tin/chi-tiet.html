@@ -4,67 +4,155 @@
     <meta charset="UTF-8">
     <title th:text="${tin.tieuDe}">Chi tiết tin</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 0; background: #f5f5f5; }
-        .navbar { background: #2c3e50; padding: 12px 24px; }
-        .navbar a { color: white; text-decoration: none; font-size: 18px; font-weight: bold; }
-        .container { display: flex; max-width: 1100px; margin: 24px auto; gap: 24px; padding: 0 16px; }
-        .sidebar { width: 220px; flex-shrink: 0; }
-        .sidebar h3 { margin-top: 0; color: #2c3e50; }
-        .sidebar ul { list-style: none; padding: 0; margin: 0; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f4f8; }
+
+        /* NAVBAR */
+        .navbar {
+            background: linear-gradient(90deg, #0f9b58, #6a11cb);
+            padding: 0 32px; display: flex;
+            align-items: center; justify-content: space-between;
+            height: 60px; box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+            position: sticky; top: 0; z-index: 100;
+        }
+        .navbar-brand {
+            color: white; font-size: 20px; font-weight: 700; text-decoration: none;
+        }
+        .navbar-right { display: flex; align-items: center; gap: 12px; color: rgba(255,255,255,0.85); font-size: 14px; }
+        .btn-logout {
+            background: rgba(255,255,255,0.15); color: white;
+            border: 1px solid rgba(255,255,255,0.3); padding: 6px 16px;
+            border-radius: 20px; text-decoration: none; font-size: 13px;
+            transition: background 0.2s;
+        }
+        .btn-logout:hover { background: rgba(255,255,255,0.28); }
+
+        /* LAYOUT */
+        .container { display: flex; max-width: 1140px; margin: 28px auto; gap: 24px; padding: 0 20px; }
+
+        /* SIDEBAR */
+        .sidebar { width: 230px; flex-shrink: 0; }
+        .sidebar-card {
+            background: white; border-radius: 14px; overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+        }
+        .sidebar-title {
+            background: linear-gradient(90deg, #11998e, #38ef7d);
+            color: white; padding: 14px 18px; font-weight: 700; font-size: 14px;
+        }
+        .sidebar ul { list-style: none; padding: 10px 0; }
         .sidebar ul li a {
-            display: block; padding: 8px 12px; margin-bottom: 4px;
-            background: white; border-radius: 4px; text-decoration: none; color: #333;
+            display: flex; align-items: center; gap: 8px;
+            padding: 10px 18px; text-decoration: none; color: #444;
+            font-size: 14px; transition: background 0.15s;
             border-left: 3px solid transparent;
         }
-        .sidebar ul li a:hover { border-left-color: #2c3e50; background: #ecf0f1; }
-        .main { flex: 1; background: white; border-radius: 6px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
-        .main h1 { margin-top: 0; color: #2c3e50; font-size: 24px; }
-        .meta { font-size: 13px; color: #888; margin-bottom: 20px; }
-        .badge {
-            display: inline-block; background: #2c3e50; color: white;
-            padding: 2px 8px; border-radius: 10px; font-size: 12px; margin-left: 8px;
+        .sidebar ul li a:hover { background: #f0fdf4; color: #0f9b58; border-left-color: #11998e; }
+        .sidebar ul li a.active {
+            background: linear-gradient(90deg, #f0fdf4, #faf5ff);
+            color: #6a11cb; font-weight: 700; border-left-color: #6a11cb;
         }
-        .noi-dung { line-height: 1.7; color: #333; }
-        .back-link { display: inline-block; margin-top: 20px; color: #2980b9; text-decoration: none; }
-        .back-link:hover { text-decoration: underline; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; background: linear-gradient(135deg, #11998e, #6a11cb); flex-shrink: 0; }
+
+        /* ARTICLE */
+        .article {
+            flex: 1; background: white; border-radius: 14px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.07); overflow: hidden;
+        }
+        .article-header {
+            background: linear-gradient(135deg, #11998e, #6a11cb);
+            padding: 32px 32px 28px; color: white;
+        }
+        .article-header .badge {
+            display: inline-block; padding: 4px 14px; border-radius: 20px;
+            background: rgba(255,255,255,0.25); font-size: 12px;
+            font-weight: 600; margin-bottom: 14px; letter-spacing: 0.5px;
+        }
+        .article-header h1 {
+            font-size: 26px; font-weight: 800; line-height: 1.4; margin-bottom: 14px;
+        }
+        .article-header .meta { font-size: 13px; opacity: 0.85; display: flex; gap: 16px; }
+
+        .article-body { padding: 32px; }
+        .article-body .noi-dung {
+            font-size: 16px; line-height: 1.8; color: #333;
+        }
+
+        /* FOOTER ACTIONS */
+        .article-footer {
+            padding: 20px 32px 28px;
+            border-top: 1px solid #f0f0f0;
+            display: flex; gap: 12px; align-items: center;
+        }
+        .btn-back {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 10px 22px; border-radius: 25px; font-size: 14px;
+            font-weight: 600; text-decoration: none; transition: transform 0.2s;
+            background: linear-gradient(90deg, #11998e, #6a11cb);
+            color: white;
+        }
+        .btn-back:hover { transform: translateY(-2px); }
+        .btn-all {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 10px 22px; border-radius: 25px; font-size: 14px;
+            font-weight: 600; text-decoration: none; transition: transform 0.2s;
+            background: #f0f4f8; color: #555; border: 1px solid #e0e0e0;
+        }
+        .btn-all:hover { transform: translateY(-2px); background: #e8edf2; }
     </style>
 </head>
 <body>
 
 <div class="navbar">
-    <a th:href="@{/tin}">Tin tức</a>
+    <a class="navbar-brand" th:href="@{/}">📰 ThiGK2 News</a>
+    <div class="navbar-right">
+        <span th:if="${session.nguoiDungDangNhap != null}">
+            👤 <strong th:text="${session.nguoiDungDangNhap.hoTen}"></strong>
+            <a class="btn-logout" th:href="@{/dang-xuat}">Đăng xuất</a>
+        </span>
+    </div>
 </div>
 
 <div class="container">
-    <!-- Sidebar thể loại -->
+    <!-- Sidebar -->
     <div class="sidebar">
-        <h3>Thể loại</h3>
-        <ul>
-            <li><a th:href="@{/tin}">Tất cả</a></li>
-            <li th:each="tl : ${danhSachTheLoai}">
-                <a th:href="@{/tin/the-loai/{id}(id=${tl.maTheLoai})}"
-                   th:text="${tl.tenTheLoai}"
-                   th:classappend="${tl.maTheLoai == tin.theLoaiTin.maTheLoai} ? 'active' : ''">
-                </a>
-            </li>
-        </ul>
+        <div class="sidebar-card">
+            <div class="sidebar-title">📂 Thể loại</div>
+            <ul>
+                <li><a th:href="@{/tin}"><span class="dot"></span> Tất cả</a></li>
+                <li th:each="tl : ${danhSachTheLoai}">
+                    <a th:href="@{/tin/the-loai/{id}(id=${tl.maTheLoai})}"
+                       th:classappend="${tl.maTheLoai == tin.theLoaiTin.maTheLoai} ? 'active' : ''">
+                        <span class="dot"></span>
+                        <span th:text="${tl.tenTheLoai}"></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
 
-    <!-- Chi tiết tin -->
-    <div class="main">
-        <h1 th:text="${tin.tieuDe}"></h1>
-        <div class="meta">
-            Thể loại: <span class="badge" th:text="${tin.theLoaiTin.tenTheLoai}"></span>
-            &nbsp;|&nbsp;
-            Ngày đăng: <span th:text="${#temporals.format(tin.ngayDang, 'dd/MM/yyyy HH:mm')}"></span>
+    <!-- Article -->
+    <div class="article">
+        <div class="article-header">
+            <div class="badge" th:text="${tin.theLoaiTin.tenTheLoai}"></div>
+            <h1 th:text="${tin.tieuDe}"></h1>
+            <div class="meta">
+                <span>🕐 <span th:text="${#temporals.format(tin.ngayDang, 'dd/MM/yyyy HH:mm')}"></span></span>
+                <span>📰 Mã tin: #<span th:text="${tin.maTin}"></span></span>
+            </div>
         </div>
 
-        <div class="noi-dung" th:text="${tin.noiDung}"></div>
+        <div class="article-body">
+            <div class="noi-dung" th:text="${tin.noiDung}"></div>
+        </div>
 
-        <a class="back-link"
-           th:href="@{/tin/the-loai/{id}(id=${tin.theLoaiTin.maTheLoai})}">
-            ← Quay lại danh sách
-        </a>
+        <div class="article-footer">
+            <a class="btn-back"
+               th:href="@{/tin/the-loai/{id}(id=${tin.theLoaiTin.maTheLoai})}">
+                ← Tin cùng thể loại
+            </a>
+            <a class="btn-all" th:href="@{/tin}">Tất cả tin tức</a>
+        </div>
     </div>
 </div>
 

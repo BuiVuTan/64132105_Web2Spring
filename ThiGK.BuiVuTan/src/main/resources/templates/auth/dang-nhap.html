@@ -4,68 +4,119 @@
     <meta charset="UTF-8">
     <title>Đăng nhập</title>
     <style>
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: Arial, sans-serif; margin: 0;
-            background: #f5f5f5; display: flex;
-            justify-content: center; align-items: center; min-height: 100vh;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0f9b58 0%, #1a7a4a 40%, #6a11cb 100%);
+            display: flex; align-items: center; justify-content: center;
         }
-        .login-box {
-            background: white; padding: 40px; border-radius: 8px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.12); width: 360px;
+        .login-wrapper {
+            display: flex; width: 860px; min-height: 480px;
+            border-radius: 20px; overflow: hidden;
+            box-shadow: 0 24px 60px rgba(0,0,0,0.35);
         }
-        .login-box h2 {
-            text-align: center; margin: 0 0 28px;
-            color: #2c3e50; font-size: 22px;
+        /* Panel trái */
+        .panel-left {
+            flex: 1;
+            background: linear-gradient(160deg, #11998e, #38ef7d 60%, #6a11cb);
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            padding: 40px; color: white; text-align: center;
         }
-        .form-group { margin-bottom: 18px; }
-        .form-group label { display: block; margin-bottom: 6px; color: #555; font-size: 14px; }
-        .form-group input {
-            width: 100%; padding: 10px 12px; border: 1px solid #ddd;
-            border-radius: 4px; font-size: 15px; outline: none;
+        .panel-left .logo { font-size: 52px; margin-bottom: 16px; }
+        .panel-left h2 { font-size: 26px; font-weight: 700; margin-bottom: 10px; }
+        .panel-left p { font-size: 14px; opacity: 0.85; line-height: 1.6; }
+        /* Panel phải */
+        .panel-right {
+            flex: 1; background: white;
+            display: flex; flex-direction: column;
+            justify-content: center; padding: 48px 40px;
         }
-        .form-group input:focus { border-color: #2c3e50; }
+        .panel-right h3 {
+            font-size: 24px; color: #1a1a2e; margin-bottom: 6px; font-weight: 700;
+        }
+        .panel-right .subtitle { color: #888; font-size: 14px; margin-bottom: 30px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label {
+            display: block; font-size: 13px; font-weight: 600;
+            color: #444; margin-bottom: 7px; letter-spacing: 0.3px;
+        }
+        .input-wrap { position: relative; }
+        .input-wrap input {
+            width: 100%; padding: 12px 16px;
+            border: 2px solid #e8e8e8; border-radius: 10px;
+            font-size: 15px; outline: none; transition: border-color 0.2s;
+            background: #fafafa;
+        }
+        .input-wrap input:focus {
+            border-color: #11998e; background: white;
+        }
         .btn-login {
-            width: 100%; padding: 11px; background: #2c3e50; color: white;
-            border: none; border-radius: 4px; font-size: 16px; cursor: pointer;
+            width: 100%; padding: 13px;
+            background: linear-gradient(90deg, #11998e, #6a11cb);
+            color: white; border: none; border-radius: 10px;
+            font-size: 16px; font-weight: 600; cursor: pointer;
+            letter-spacing: 0.5px; transition: opacity 0.2s, transform 0.1s;
+            margin-top: 4px;
         }
-        .btn-login:hover { background: #1a252f; }
+        .btn-login:hover { opacity: 0.92; transform: translateY(-1px); }
+        .btn-login:active { transform: translateY(0); }
         .error {
-            background: #fdecea; color: #c0392b; padding: 10px 14px;
-            border-radius: 4px; margin-bottom: 18px; font-size: 14px;
-            border-left: 4px solid #c0392b;
+            display: flex; align-items: center; gap: 8px;
+            background: #fff0f0; color: #c0392b; padding: 11px 14px;
+            border-radius: 8px; margin-bottom: 20px; font-size: 14px;
+            border-left: 4px solid #e74c3c;
         }
-        .back { text-align: center; margin-top: 16px; font-size: 14px; }
-        .back a { color: #2980b9; text-decoration: none; }
+        .back {
+            text-align: center; margin-top: 20px; font-size: 13px; color: #aaa;
+        }
+        .back a {
+            color: #11998e; text-decoration: none; font-weight: 600;
+        }
         .back a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
+<div class="login-wrapper">
+    <!-- Panel trái -->
+    <div class="panel-left">
+        <div class="logo">📰</div>
+        <h2>ThiGK2 News</h2>
+        <p>Cổng thông tin tin tức<br>hiện đại &amp; nhanh chóng</p>
+    </div>
+    <!-- Panel phải -->
+    <div class="panel-right">
+        <h3>Chào mừng trở lại!</h3>
+        <p class="subtitle">Đăng nhập để tiếp tục đọc tin tức</p>
 
-<div class="login-box">
-    <h2>Đăng nhập</h2>
-
-    <!-- Thông báo lỗi nếu có -->
-    <div class="error" th:if="${loi}" th:text="${loi}"></div>
-
-    <form method="post" th:action="@{/dang-nhap}">
-        <div class="form-group">
-            <label for="tenDangNhap">Tên đăng nhập</label>
-            <input type="text" id="tenDangNhap" name="tenDangNhap"
-                   placeholder="Nhập tên đăng nhập" required autofocus>
+        <div class="error" th:if="${loi}">
+            <span>⚠</span>
+            <span th:text="${loi}"></span>
         </div>
-        <div class="form-group">
-            <label for="matKhau">Mật khẩu</label>
-            <input type="password" id="matKhau" name="matKhau"
-                   placeholder="Nhập mật khẩu" required>
-        </div>
-        <button type="submit" class="btn-login">Đăng nhập</button>
-    </form>
 
-    <div class="back">
-        <a th:href="@{/tin}">← Quay lại trang tin tức</a>
+        <form method="post" th:action="@{/dang-nhap}">
+            <div class="form-group">
+                <label for="tenDangNhap">Tên đăng nhập</label>
+                <div class="input-wrap">
+                    <input type="text" id="tenDangNhap" name="tenDangNhap"
+                           placeholder="Nhập tên đăng nhập" required autofocus>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="matKhau">Mật khẩu</label>
+                <div class="input-wrap">
+                    <input type="password" id="matKhau" name="matKhau"
+                           placeholder="Nhập mật khẩu" required>
+                </div>
+            </div>
+            <button type="submit" class="btn-login">Đăng nhập →</button>
+        </form>
+
+        <div class="back">
+            Tài khoản: <strong>admin</strong> / <strong>123456</strong>
+        </div>
     </div>
 </div>
-
 </body>
 </html>

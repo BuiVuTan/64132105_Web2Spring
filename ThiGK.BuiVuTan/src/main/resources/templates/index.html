@@ -2,51 +2,111 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>ThiGK2 - Bui Vu Tan</title>
+    <title>ThiGK2 - Trang chủ</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 0; background: #f5f5f5; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f4f8; }
+
+        /* NAVBAR */
         .navbar {
-            background: #2c3e50; padding: 12px 24px;
-            display: flex; justify-content: space-between; align-items: center;
+            background: linear-gradient(90deg, #0f9b58, #6a11cb);
+            padding: 0 32px; display: flex;
+            align-items: center; justify-content: space-between;
+            height: 60px; box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+            position: sticky; top: 0; z-index: 100;
         }
-        .navbar-left a { color: white; text-decoration: none; font-size: 18px; font-weight: bold; margin-right: 20px; }
-        .navbar-right { color: #ccc; font-size: 14px; }
-        .navbar-right a { color: #f39c12; text-decoration: none; margin-left: 12px; }
-        .navbar-right a:hover { text-decoration: underline; }
-        .hero { text-align: center; padding: 80px 20px; }
-        .hero h1 { color: #2c3e50; font-size: 32px; }
-        .hero p { color: #666; }
-        .hero a {
-            display: inline-block; margin-top: 20px; padding: 12px 28px;
-            background: #2c3e50; color: white; text-decoration: none; border-radius: 4px;
+        .navbar-brand {
+            color: white; font-size: 20px; font-weight: 700;
+            text-decoration: none; letter-spacing: 0.5px;
         }
-        .hero a:hover { background: #1a252f; }
+        .navbar-brand span { opacity: 0.8; font-weight: 400; font-size: 15px; margin-left: 8px; }
+        .navbar-links { display: flex; align-items: center; gap: 8px; }
+        .navbar-links a {
+            color: rgba(255,255,255,0.88); text-decoration: none;
+            padding: 7px 16px; border-radius: 20px; font-size: 14px;
+            transition: background 0.2s;
+        }
+        .navbar-links a:hover { background: rgba(255,255,255,0.15); color: white; }
+        .navbar-right { display: flex; align-items: center; gap: 12px; color: rgba(255,255,255,0.85); font-size: 14px; }
+        .btn-logout {
+            background: rgba(255,255,255,0.15); color: white;
+            border: 1px solid rgba(255,255,255,0.3); padding: 6px 16px;
+            border-radius: 20px; text-decoration: none; font-size: 13px;
+            transition: background 0.2s;
+        }
+        .btn-logout:hover { background: rgba(255,255,255,0.28); }
+
+        /* HERO */
+        .hero {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 50%, #6a11cb 100%);
+            color: white; text-align: center; padding: 90px 20px 80px;
+            clip-path: ellipse(100% 88% at 50% 12%);
+            padding-bottom: 110px;
+        }
+        .hero h1 { font-size: 42px; font-weight: 800; margin-bottom: 14px; letter-spacing: -0.5px; }
+        .hero p { font-size: 17px; opacity: 0.9; margin-bottom: 32px; }
+        .hero-btn {
+            display: inline-block; padding: 14px 36px;
+            background: white; color: #0f9b58;
+            border-radius: 30px; text-decoration: none;
+            font-weight: 700; font-size: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .hero-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(0,0,0,0.2); }
+
+        /* STATS */
+        .stats {
+            display: flex; justify-content: center; gap: 24px;
+            max-width: 700px; margin: -30px auto 48px; padding: 0 20px;
+        }
+        .stat-card {
+            flex: 1; background: white; border-radius: 14px; padding: 22px 20px;
+            text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        .stat-card .num {
+            font-size: 32px; font-weight: 800;
+            background: linear-gradient(90deg, #11998e, #6a11cb);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .stat-card .label { font-size: 13px; color: #888; margin-top: 4px; }
     </style>
 </head>
 <body>
 
 <div class="navbar">
-    <div class="navbar-left">
+    <a class="navbar-brand" th:href="@{/}">📰 Bui <span>News</span></a>
+    <div class="navbar-links">
         <a th:href="@{/}">Trang chủ</a>
         <a th:href="@{/tin}">Tin tức</a>
     </div>
     <div class="navbar-right">
-        <!-- Chưa đăng nhập -->
-        <span th:if="${session.nguoiDungDangNhap == null}">
-            <a th:href="@{/dang-nhap}">Đăng nhập</a>
-        </span>
-        <!-- Đã đăng nhập -->
         <span th:if="${session.nguoiDungDangNhap != null}">
-            Xin chào, <strong th:text="${session.nguoiDungDangNhap.hoTen}"></strong>
-            <a th:href="@{/dang-xuat}">Đăng xuất</a>
+            👤 <strong th:text="${session.nguoiDungDangNhap.hoTen}"></strong>
+            <a class="btn-logout" th:href="@{/dang-xuat}">Đăng xuất</a>
         </span>
     </div>
 </div>
 
 <div class="hero">
-    <h1>Chào mừng đến với ThiGK2</h1>
-    <p>Sinh viên: Bùi Vũ Tân</p>
-    <a th:href="@{/tin}">Xem tất cả tin tức →</a>
+    <h1>Tin tức mọi lúc mọi nơi</h1>
+    <p>Cập nhật tin tức nhanh nhất — Thể thao, Công nghệ, Giải trí &amp; hơn thế nữa</p>
+    <a class="hero-btn" th:href="@{/tin}">Xem tất cả tin tức →</a>
+</div>
+
+<div class="stats">
+    <div class="stat-card">
+        <div class="num">4</div>
+        <div class="label">Thể loại</div>
+    </div>
+    <div class="stat-card">
+        <div class="num">4</div>
+        <div class="label">Bài tin</div>
+    </div>
+    <div class="stat-card">
+        <div class="num">2</div>
+        <div class="label">Thành viên</div>
+    </div>
 </div>
 
 </body>
