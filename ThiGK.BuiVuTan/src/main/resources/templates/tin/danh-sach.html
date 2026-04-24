@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${tieuDeTrang}">Tin tức</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; background: #f5f5f5; }
+        .navbar { background: #2c3e50; padding: 12px 24px; }
+        .navbar a { color: white; text-decoration: none; font-size: 18px; font-weight: bold; }
+        .container { display: flex; max-width: 1100px; margin: 24px auto; gap: 24px; padding: 0 16px; }
+        .sidebar { width: 220px; flex-shrink: 0; }
+        .sidebar h3 { margin-top: 0; color: #2c3e50; }
+        .sidebar ul { list-style: none; padding: 0; margin: 0; }
+        .sidebar ul li a {
+            display: block; padding: 8px 12px; margin-bottom: 4px;
+            background: white; border-radius: 4px; text-decoration: none; color: #333;
+            border-left: 3px solid transparent;
+        }
+        .sidebar ul li a:hover, .sidebar ul li a.active {
+            border-left-color: #2c3e50; background: #ecf0f1; font-weight: bold;
+        }
+        .main { flex: 1; }
+        .main h2 { margin-top: 0; color: #2c3e50; }
+        .tin-card {
+            background: white; border-radius: 6px; padding: 16px 20px;
+            margin-bottom: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+        .tin-card h3 { margin: 0 0 8px; }
+        .tin-card h3 a { text-decoration: none; color: #2980b9; }
+        .tin-card h3 a:hover { text-decoration: underline; }
+        .tin-card .meta { font-size: 13px; color: #888; }
+        .tin-card .noi-dung { margin-top: 8px; color: #555; }
+        .badge {
+            display: inline-block; background: #2c3e50; color: white;
+            padding: 2px 8px; border-radius: 10px; font-size: 12px; margin-left: 8px;
+        }
+        .empty { color: #888; font-style: italic; }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <a th:href="@{/tin}">Tin tức</a>
+</div>
+
+<div class="container">
+    <!-- Sidebar thể loại -->
+    <div class="sidebar">
+        <h3>Thể loại</h3>
+        <ul>
+            <li>
+                <a th:href="@{/tin}"
+                   th:classappend="${maTheLoaiHienTai == null} ? 'active' : ''">
+                    Tất cả
+                </a>
+            </li>
+            <li th:each="tl : ${danhSachTheLoai}">
+                <a th:href="@{/tin/the-loai/{id}(id=${tl.maTheLoai})}"
+                   th:text="${tl.tenTheLoai}"
+                   th:classappend="${maTheLoaiHienTai == tl.maTheLoai} ? 'active' : ''">
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Danh sách tin -->
+    <div class="main">
+        <h2 th:text="${tieuDeTrang}">Tin tức</h2>
+
+        <p class="empty" th:if="${#lists.isEmpty(danhSachTin)}">Không có tin nào.</p>
+
+        <div class="tin-card" th:each="tin : ${danhSachTin}">
+            <h3>
+                <a th:href="@{/tin/{id}(id=${tin.maTin})}" th:text="${tin.tieuDe}"></a>
+                <span class="badge" th:text="${tin.theLoaiTin.tenTheLoai}"></span>
+            </h3>
+            <div class="meta">
+                Ngày đăng: <span th:text="${#temporals.format(tin.ngayDang, 'dd/MM/yyyy HH:mm')}"></span>
+            </div>
+            <div class="noi-dung" th:text="${#strings.abbreviate(tin.noiDung, 150)}"></div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

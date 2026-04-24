@@ -3,9 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <title>ThiGK2 - Bui Vu Tan</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; background: #f5f5f5; }
+        .navbar {
+            background: #2c3e50; padding: 12px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .navbar-left a { color: white; text-decoration: none; font-size: 18px; font-weight: bold; margin-right: 20px; }
+        .navbar-right { color: #ccc; font-size: 14px; }
+        .navbar-right a { color: #f39c12; text-decoration: none; margin-left: 12px; }
+        .navbar-right a:hover { text-decoration: underline; }
+        .hero { text-align: center; padding: 80px 20px; }
+        .hero h1 { color: #2c3e50; font-size: 32px; }
+        .hero p { color: #666; }
+        .hero a {
+            display: inline-block; margin-top: 20px; padding: 12px 28px;
+            background: #2c3e50; color: white; text-decoration: none; border-radius: 4px;
+        }
+        .hero a:hover { background: #1a252f; }
+    </style>
 </head>
 <body>
-    <h1>Chào mừng đến với ứng dụng ThiGK2!</h1>
-    <p>Sinh viên: Bui Vu Tan</p>
+
+<div class="navbar">
+    <div class="navbar-left">
+        <a th:href="@{/}">Trang chủ</a>
+        <a th:href="@{/tin}">Tin tức</a>
+    </div>
+    <div class="navbar-right">
+        <!-- Chưa đăng nhập -->
+        <span th:if="${session.nguoiDungDangNhap == null}">
+            <a th:href="@{/dang-nhap}">Đăng nhập</a>
+        </span>
+        <!-- Đã đăng nhập -->
+        <span th:if="${session.nguoiDungDangNhap != null}">
+            Xin chào, <strong th:text="${session.nguoiDungDangNhap.hoTen}"></strong>
+            <a th:href="@{/dang-xuat}">Đăng xuất</a>
+        </span>
+    </div>
+</div>
+
+<div class="hero">
+    <h1>Chào mừng đến với ThiGK2</h1>
+    <p>Sinh viên: Bùi Vũ Tân</p>
+    <a th:href="@{/tin}">Xem tất cả tin tức →</a>
+</div>
+
 </body>
 </html>

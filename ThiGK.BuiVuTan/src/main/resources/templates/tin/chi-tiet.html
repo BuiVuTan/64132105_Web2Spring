@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${tin.tieuDe}">Chi tiết tin</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; background: #f5f5f5; }
+        .navbar { background: #2c3e50; padding: 12px 24px; }
+        .navbar a { color: white; text-decoration: none; font-size: 18px; font-weight: bold; }
+        .container { display: flex; max-width: 1100px; margin: 24px auto; gap: 24px; padding: 0 16px; }
+        .sidebar { width: 220px; flex-shrink: 0; }
+        .sidebar h3 { margin-top: 0; color: #2c3e50; }
+        .sidebar ul { list-style: none; padding: 0; margin: 0; }
+        .sidebar ul li a {
+            display: block; padding: 8px 12px; margin-bottom: 4px;
+            background: white; border-radius: 4px; text-decoration: none; color: #333;
+            border-left: 3px solid transparent;
+        }
+        .sidebar ul li a:hover { border-left-color: #2c3e50; background: #ecf0f1; }
+        .main { flex: 1; background: white; border-radius: 6px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+        .main h1 { margin-top: 0; color: #2c3e50; font-size: 24px; }
+        .meta { font-size: 13px; color: #888; margin-bottom: 20px; }
+        .badge {
+            display: inline-block; background: #2c3e50; color: white;
+            padding: 2px 8px; border-radius: 10px; font-size: 12px; margin-left: 8px;
+        }
+        .noi-dung { line-height: 1.7; color: #333; }
+        .back-link { display: inline-block; margin-top: 20px; color: #2980b9; text-decoration: none; }
+        .back-link:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <a th:href="@{/tin}">Tin tức</a>
+</div>
+
+<div class="container">
+    <!-- Sidebar thể loại -->
+    <div class="sidebar">
+        <h3>Thể loại</h3>
+        <ul>
+            <li><a th:href="@{/tin}">Tất cả</a></li>
+            <li th:each="tl : ${danhSachTheLoai}">
+                <a th:href="@{/tin/the-loai/{id}(id=${tl.maTheLoai})}"
+                   th:text="${tl.tenTheLoai}"
+                   th:classappend="${tl.maTheLoai == tin.theLoaiTin.maTheLoai} ? 'active' : ''">
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Chi tiết tin -->
+    <div class="main">
+        <h1 th:text="${tin.tieuDe}"></h1>
+        <div class="meta">
+            Thể loại: <span class="badge" th:text="${tin.theLoaiTin.tenTheLoai}"></span>
+            &nbsp;|&nbsp;
+            Ngày đăng: <span th:text="${#temporals.format(tin.ngayDang, 'dd/MM/yyyy HH:mm')}"></span>
+        </div>
+
+        <div class="noi-dung" th:text="${tin.noiDung}"></div>
+
+        <a class="back-link"
+           th:href="@{/tin/the-loai/{id}(id=${tin.theLoaiTin.maTheLoai})}">
+            ← Quay lại danh sách
+        </a>
+    </div>
+</div>
+
+</body>
+</html>
