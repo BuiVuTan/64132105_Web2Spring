@@ -1,5 +1,6 @@
 package thigk2.buivutan.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.util.List;
@@ -18,6 +19,7 @@ public class TheLoaiTin {
     private String tenTheLoai;
 
     // Một thể loại có nhiều tin
+    @JsonIgnore
     @OneToMany(mappedBy = "theLoaiTin", fetch = FetchType.LAZY)
     private List<Tin> danhSachTin;
 }
